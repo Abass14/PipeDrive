@@ -2,9 +2,8 @@ import { Dispatch } from "react";
 import { Activity, Deals, Person } from "../../model/model";
 import { getPersonActivities, getPersonDeals } from "../../screens/PersonDetailScreen/network";
 import { getPersons } from "../../screens/PersonListScreen/network";
-import { GET_ACTIVITIES, GET_ACTIVITIES_ERROR, GET_ACTIVITIES_FROM_CONTEXT, GET_DEALS, GET_DEALS_ERROR, GET_DEALS_FROM_CONTEXT, GET_PERSONS, GET_PERSON_ERROR, REFRESH_PERSONS } from "../../utils/types";
-import { cacheData, getCachedActivities, getCachedDeals, getCachedPersons } from "../../storage";
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import { GET_ACTIVITIES, GET_ACTIVITIES_ERROR, GET_ACTIVITIES_FROM_CONTEXT, GET_DEALS, GET_DEALS_ERROR, GET_DEALS_FROM_CONTEXT, GET_PERSONS, GET_PERSONS_FROM_CONTEXT, GET_PERSON_ERROR, REFRESH_PERSONS } from "../../utils/types";
+import { cacheData, clearObject, getCachedActivities, getCachedDeals, getCachedPersons } from "../../storage";
 import { PERSONS } from "../../utils/constants";
 
 export interface GetPersonAction {
@@ -22,7 +21,10 @@ export interface GetPersonError {
     payload: any
 }
 
-
+export interface GetPersonActionFromContext {
+    readonly type: GET_PERSONS_FROM_CONTEXT;
+    payload: any
+}
 
 export interface GetActivitiesAction {
     readonly type: GET_ACTIVITIES;
@@ -54,34 +56,48 @@ export interface GetDealsError {
     payload: any
 }
 
-export type Action = GetPersonAction | GetPersonError | RefreshPersonAction | GetActivitiesAction | GetActivitiesError | GetDealsActions | GetDealsError | GetActivitiesFromContext | GetDealsActionsContext;
+export type Action = GetPersonAction | GetPersonError | GetPersonActionFromContext | RefreshPersonAction | GetActivitiesAction | GetActivitiesError | GetDealsActions | GetDealsError | GetActivitiesFromContext | GetDealsActionsContext;
 
 export const fetchPersons = (start: number, limit: number, refresh: boolean): Array<Person> | any => {
     return async (dispatch: Dispatch<Action>) => {
         try {
             const response = await getPersons(start, limit);
+            await clearObject(PERSONS)
             const { data = {} } = response;
-            // const cached = await getCachedPersons();
-            // AsyncStorage.setItem(PERSONS, cacheData(data.data))
             if (refresh) {
-                console.log("....refreshing")
                 dispatch({
                     type: "REFRESH_PERSONS",
                     payload: data.data
                 })
             } else {
-                console.log("....not refreshing")
                 dispatch({
                     type: "GET_PERSONS",
                     payload: data.data
                 })
             }
-            return data.data
         } catch (error: any) {
-            const { error_info = "Something went wrong, try again" } = error
+            const { message = "Something went wrong" } = error
             dispatch({
                 type: "GET_PERSON_ERROR",
-                payload: error_info
+                payload: `${message}. Swipe to refresh`
+            })
+        }
+    }
+}
+
+export const fetchPersonsFromContext = (): Array<Person> | any => {
+    return async (dispatch: Dispatch<Action>) => {
+        try {
+            const response = await getCachedPersons();
+            dispatch({
+                type: "GET_PERSONS_FROM_CONTEXT",
+                payload: response
+            })
+        } catch (error: any) {
+            const { response = {} } = error
+            dispatch({
+                type: "GET_PERSON_ERROR",
+                payload: `Swipe to refresh`
             })
         }
     }
@@ -97,10 +113,10 @@ export const fetchPersonActivities = (id: number) => {
                 payload: { id, activity: data.data }
             })
         } catch (error: any) {
-            const { error_info = "Something went wrong, try again" } = error
+            const { message = "Error fetching Activities." } = error
             dispatch({
                 type: "GET_ACTIVITIES_ERROR",
-                payload: error_info
+                payload: `${message}`
             })
         }
     }
@@ -115,10 +131,10 @@ export const fetchPersonActivitiesFromContext = () => {
                 payload: response
             })
         } catch (error: any) {
-            const { error_info = "Something went wrong, try again" } = error
+            const { message = "Error fetching Activities." } = error
             dispatch({
                 type: "GET_ACTIVITIES_ERROR",
-                payload: error_info
+                payload: `${message}`
             })
         }
     }
@@ -133,10 +149,10 @@ export const fetchPersonDeals = (id: number) => {
                 payload: { id: id, deals: data.data }
             })
         } catch (error: any) {
-            const { error_info = "Something went wrong, try again" } = error
+            const { message = "Error fetching Deals." } = error
             dispatch({
                 type: "GET_DEALS_ERROR",
-                payload: error_info
+                payload: `${message}`
             })
         }
     }
@@ -151,10 +167,10 @@ export const fetchPersonDealsFromContext = () => {
                 payload: response
             })
         } catch (error: any) {
-            const { error_info = "Something went wrong, try again" } = error
+            const { message = "Error fetching Deals." } = error
             dispatch({
                 type: "GET_DEALS_ERROR",
-                payload: error_info
+                payload: `${message}`
             })
         }
     }

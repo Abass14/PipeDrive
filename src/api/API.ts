@@ -18,14 +18,14 @@ const API = async (method: "get" | "post", path: string, additionalParams?: any)
                 })
                 return request
             } catch (error: any) {
-                return error.response;
+                throw error
             }
         case "post":
             try {
                 const request = await axiosInstance.post(path, additionalParams)
                 return request
             } catch (error: any) {
-                return error.response;
+                throw error
             }
     }
 }

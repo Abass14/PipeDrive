@@ -16,6 +16,12 @@ type ActivitiesCardProps = {
     due_date: string,
     personsList: Array<Person>
 }
+
+/**
+ * ActivitiesCard: Renders Activties for a particular user
+ * @props ActivitiesCardProps
+ * @returns JSX
+ */
 const ActivitiesCard: React.FC<ActivitiesCardProps> = ({
     subject,
     activity_type,

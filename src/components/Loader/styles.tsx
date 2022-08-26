@@ -9,6 +9,6 @@ export const styles = StyleSheet.create({
     dots: {
         height: 10,
         width: 10,
-        backgroundColor: "white",
+        backgroundColor: "blue",
     }
 })

@@ -1,34 +1,40 @@
 import { Action } from "../actions";
 import { initialState, State } from "../state";
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { ACTIVITES, DEALS, PERSONS } from "../../utils/constants";
-import { cacheData } from "../../storage";
+import { cacheData, setObject } from "../../storage";
 
 
 const reducer = (state: State = initialState, action: Action) => {
     switch (action.type) {
         case "GET_PERSONS":
-            AsyncStorage.setItem(PERSONS, cacheData(state.personsList))
+            setObject(PERSONS, cacheData([...state.personsList, ...action.payload]))
             return {
                 ...state,
-                personsList: [...state.personsList, ...action.payload],
                 personListError: ""
+            };
+        case "GET_PERSONS_FROM_CONTEXT": 
+            return {
+                ...state,
+                personsList: action.payload,
             }
         case "GET_PERSON_ERROR":
             return {
                 ...state,
                 personListError: action.payload
             }
-        case "REFRESH_PERSONS": 
+        case "REFRESH_PERSONS":
+            setObject(PERSONS, cacheData(action.payload))
             return {
                 ...state,
-                personsList: action.payload,
                 personListError: ""
             }
         case "GET_ACTIVITIES":
             const map = state.activityMap.set(action.payload.id, action.payload.activity)
-            AsyncStorage.setItem(ACTIVITES, JSON.stringify(Array.from(map.entries())))
-            return state
+            setObject(ACTIVITES,  JSON.stringify(Array.from(map.entries())))
+            return {
+                ...state,
+                activitiesListError: ""
+            }
         case "GET_ACTIVITIES_FROM_CONTEXT":
             return {
                 ...state,
@@ -41,8 +47,11 @@ const reducer = (state: State = initialState, action: Action) => {
             }
         case "GET_DEALS":
             const mapDeals = state.dealsMap.set(action.payload.id, action.payload.deals)
-            AsyncStorage.setItem(DEALS, JSON.stringify(Array.from(mapDeals.entries())))
-            return state;
+            setObject(DEALS, JSON.stringify(Array.from(mapDeals.entries())))
+            return {
+                ...state,
+                dealsListError: ""
+            };
         case "GET_DEALS_FROM_CONTEXT":
             return {
                 ...state,
@@ -57,12 +66,6 @@ const reducer = (state: State = initialState, action: Action) => {
             return state;
     }
 }
-
-// export const transformer = createTransform((state: any) => {
-//     return {...state, activityMap: Array.from([state.activityMap]), dealsMap: Array.from([state.dealsMap])} 
-// }, (state: State) => {
-//     return {...state, activityMap: new Map(state.activityMap), dealMap: new Map(state.dealsMap)}
-// })
 
 export type ApplicationState = ReturnType<typeof reducer>;
 export default reducer;
