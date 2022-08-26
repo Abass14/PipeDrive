@@ -13,5 +13,19 @@ export const styles = StyleSheet.create({
     personTxt: {
         fontSize: 30,
         marginTop: 10
+    },
+    emptyMessageContainer: { 
+        position: 'absolute', 
+        top: 20, 
+        width: '100%', 
+        alignSelf: 'center' 
+    },
+    emptyMessage: {
+        backgroundColor: 'transparent' 
+    },
+    loadMore: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: 50
     }
 })

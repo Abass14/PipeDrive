@@ -1,7 +1,7 @@
 import { Person } from "../model/model";
 
 export function getUserDetails (id: number, userList: Array<Person>) : Person | undefined {
-    const user = userList.find((user) => id === user.id)
+    const user = userList?.find((user) => id === user?.id)
     return user
 }
 
@@ -23,13 +23,13 @@ export function getUserPicture (person: Person | undefined) : string {
 }
 
 export function getStartTime (add_date: string) : {add_date: string, add_time: string} | undefined {
-    if (!add_date.length) return;
-    const split = add_date.split(" ")
+    if (!add_date?.length) return;
+    const split = add_date?.split(" ")
     return {add_date: split[0], add_time: split[0]}
 }
 
 export function formatSampleText (text: string) : string {
     if (!text?.includes("[Sample]")) return text;
-    const split = text.split("]")
-    return split[1].trimStart()
+    const split = text?.split("]")
+    return split[1]?.trimStart()
 }

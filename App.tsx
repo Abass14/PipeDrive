@@ -1,11 +1,10 @@
-import { Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, View, LogBox } from 'react-native';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import config from './config';
 import RootNavigation from './src/navigation/RootNavigation';
-import { persistor, store } from './src/redux/store';
+import { store } from './src/redux/store';
 
 export default function App() {
+  LogBox.ignoreLogs(['Sending onAnimatedValueUpdate with no listeners registered']);
   return (
     <Provider store={store}>
       <StatusBar barStyle={"dark-content"} backgroundColor={"#fff"} />

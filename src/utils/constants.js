@@ -6,3 +6,4 @@ export const PERSONS = "PERSONS";
 export const ACTIVITES = "ACTIVITES"
 export const DEALS = "DEALS"
 export const LIMIT = 10
+export const MAX = 22

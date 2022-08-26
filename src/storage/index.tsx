@@ -28,7 +28,7 @@ export function fetchFromCacheNetwork (
             return;
         }
         
-        if (contextData.length) return;
+        if (contextData?.length) return;
         contextCallBack()
 }
 

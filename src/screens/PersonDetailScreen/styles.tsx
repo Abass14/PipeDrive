@@ -41,7 +41,18 @@ export const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 20,
+    },
+    heaingView: {
         marginBottom: 15,
         marginTop: 10
+    },
+    horizontalView: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    centeredView: {
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flex: 1 
     }
 })

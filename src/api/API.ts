@@ -18,6 +18,7 @@ const API = async (method: "get" | "post", path: string, additionalParams?: any)
                 })
                 return request
             } catch (error: any) {
+                throw error
                 return error.response;
             }
         case "post":
@@ -25,6 +26,7 @@ const API = async (method: "get" | "post", path: string, additionalParams?: any)
                 const request = await axiosInstance.post(path, additionalParams)
                 return request
             } catch (error: any) {
+                throw error
                 return error.response;
             }
     }

@@ -3,8 +3,7 @@ import { View, Text, ScrollView, Image, Linking, FlatList } from "react-native";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../redux/reducers";
 import { fetchPersons, fetchPersonActivities, fetchPersonDeals, fetchPersonActivitiesFromContext, fetchPersonDealsFromContext } from '../../redux/actions'
-import { State } from "../../redux/state";
-import { Route } from "@react-navigation/native";
+import NetInfo from "@react-native-community/netinfo"
 import { styles } from "./styles";
 import { formatSampleText, getUserDetails, getUserEmail, getUserName, getUserPhone, getUserPicture } from "../../utils/userUtils";
 import { avatar } from "../../utils/constants";
@@ -16,16 +15,8 @@ import Loader from "../../components/Loader";
 import EmptyListMessage from "../../components/EmptyListMessage";
 import DealsCard from "../../components/DealsCard";
 import { fetchFromCacheNetwork, getCachedActivities, getCachedDeals } from "../../storage";
-
-type PersonDetailScreenProps = {
-    appState: State,
-    fetchPersons: Function,
-    fetchPersonActivities: Function,
-    fetchPersonDeals: Function,
-    fetchPersonActivitiesFromContext: Function,
-    fetchPersonDealsFromContext: Function,
-    route: Route<any, any>
-}
+import HyperLink from "../../components/Hyperlink";
+import { PersonDetailScreenProps } from "../../utils/types";
 
 const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
     appState,
@@ -44,6 +35,16 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
     const deals = dealsMap.get(id) ?? []
     const [activityLoading, setActivityLoading] = useState(false)
     const [dealsLoading, setDealsLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState("")
+
+    useEffect(() => {
+        const subscribe = NetInfo.addEventListener((state) => {
+            if (!state.isConnected) {
+                setErrorMsg("Error Fetching Data")
+            }
+        })
+        subscribe()
+    }, [])
 
     const fetchActivities = async () => {
         const data = await getCachedActivities()
@@ -51,12 +52,13 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
         fetchFromCacheNetwork(act, activity, async () => {
             await fetchPersonActivitiesFromContext()
             await fetchPersonActivities(id)
-        },  async () => {
+        }, async () => {
             setActivityLoading(true)
             await fetchPersonActivities(id)
             await fetchPersonActivitiesFromContext()
             setActivityLoading(false)
         })
+        setErrorMsg("")
     }
 
     const fetchDeals = async () => {
@@ -70,6 +72,7 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
             await fetchPersonDeals(id)
             setDealsLoading(false)
         })
+        setErrorMsg("")
     }
 
     useEffect(() => {
@@ -100,7 +103,7 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
     const renderDeals = (deals: Deals) => {
         return (
             <View>
-                <DealsCard 
+                <DealsCard
                     title={formatSampleText(deals.title)}
                     price={deals.formatted_value}
                     start_date={deals.add_time}
@@ -135,10 +138,22 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
                 <CustomText >{getUserEmail(person)}</CustomText>
             </View>
             <ScrollView style={styles.innerContainerTwo} showsVerticalScrollIndicator={false}>
-                <CustomText style={styles.heading} bold={true}>Activities {`(${activity.length})`}</CustomText>
+            <View style={[styles.heaingView, styles.horizontalView]}>
+                    <CustomText style={styles.heading} bold={true}>
+                        Activities {`(${activity.length}) `}
+                    </CustomText>
+                    {(activitiesListError || errorMsg) && (
+                        <View style={styles.horizontalView}>
+                            <CustomText style={{ color: 'red', marginLeft: 10 }}>
+                                {activitiesListError || errorMsg}
+                            </CustomText>
+                            <HyperLink text={" Try Again"} onPressed={fetchActivities} />
+                        </View>
+                    )}
+                </View>
                 <View>
                     {activityLoading ? (
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                        <View style={styles.centeredView}>
                             <Loader type="square-dots" dots_style={{ backgroundColor: 'blue' }} />
                         </View>
                     ) : (
@@ -153,7 +168,7 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
                                     nestedScrollEnabled
                                 />
                             ) : (
-                                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <View style={styles.centeredView}>
                                     <EmptyListMessage message={activitiesListError || `${formatSampleText(getUserName(person))} has no Activities`} />
                                 </View>
                             )}
@@ -162,10 +177,22 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
                     )}
 
                 </View>
-                <CustomText style={styles.heading} bold={true}>Deals {`(${deals.length})`}</CustomText>
+                <View style={[styles.heaingView, styles.horizontalView]}>
+                    <CustomText style={styles.heading} bold={true}>
+                        Deals {`(${deals.length}) `}
+                    </CustomText>
+                    {(dealsListError || errorMsg) && (
+                        <View style={styles.horizontalView}>
+                            <CustomText style={{ color: 'red', marginLeft: 10 }}>
+                                {dealsListError || errorMsg}
+                            </CustomText>
+                            <HyperLink text={" Try Again"} onPressed={fetchDeals} />
+                        </View>
+                    )}
+                </View>
                 <View>
                     {dealsLoading ? (
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                        <View style={styles.centeredView}>
                             <Loader type="square-dots" dots_style={{ backgroundColor: 'blue' }} />
                         </View>
                     ) : (
@@ -179,7 +206,7 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
                                     showsHorizontalScrollIndicator={false}
                                 />
                             ) : (
-                                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <View style={styles.centeredView}>
                                     <EmptyListMessage message={dealsListError || `${formatSampleText(getUserName(person))} has no Deals`} />
                                 </View>
                             )}

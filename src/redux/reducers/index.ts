@@ -8,27 +8,36 @@ import { cacheData } from "../../storage";
 const reducer = (state: State = initialState, action: Action) => {
     switch (action.type) {
         case "GET_PERSONS":
-            AsyncStorage.setItem(PERSONS, cacheData(state.personsList))
+            // AsyncStorage.removeItem(PERSONS);
+            AsyncStorage.setItem(PERSONS, cacheData([...state.personsList, ...action.payload]));
             return {
                 ...state,
-                personsList: [...state.personsList, ...action.payload],
                 personListError: ""
+            };
+        case "GET_PERSONS_FROM_CONTEXT": 
+            return {
+                ...state,
+                personsList: action.payload,
             }
         case "GET_PERSON_ERROR":
             return {
                 ...state,
                 personListError: action.payload
             }
-        case "REFRESH_PERSONS": 
+        case "REFRESH_PERSONS":
+            // AsyncStorage.removeItem(PERSONS);
+            AsyncStorage.setItem(PERSONS, cacheData(action.payload)); 
             return {
                 ...state,
-                personsList: action.payload,
                 personListError: ""
             }
         case "GET_ACTIVITIES":
             const map = state.activityMap.set(action.payload.id, action.payload.activity)
             AsyncStorage.setItem(ACTIVITES, JSON.stringify(Array.from(map.entries())))
-            return state
+            return {
+                ...state,
+                activitiesListError: ""
+            }
         case "GET_ACTIVITIES_FROM_CONTEXT":
             return {
                 ...state,
@@ -42,7 +51,10 @@ const reducer = (state: State = initialState, action: Action) => {
         case "GET_DEALS":
             const mapDeals = state.dealsMap.set(action.payload.id, action.payload.deals)
             AsyncStorage.setItem(DEALS, JSON.stringify(Array.from(mapDeals.entries())))
-            return state;
+            return {
+                ...state,
+                dealsListError: ""
+            };
         case "GET_DEALS_FROM_CONTEXT":
             return {
                 ...state,
