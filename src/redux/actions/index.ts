@@ -3,8 +3,7 @@ import { Activity, Deals, Person } from "../../model/model";
 import { getPersonActivities, getPersonDeals } from "../../screens/PersonDetailScreen/network";
 import { getPersons } from "../../screens/PersonListScreen/network";
 import { GET_ACTIVITIES, GET_ACTIVITIES_ERROR, GET_ACTIVITIES_FROM_CONTEXT, GET_DEALS, GET_DEALS_ERROR, GET_DEALS_FROM_CONTEXT, GET_PERSONS, GET_PERSONS_FROM_CONTEXT, GET_PERSON_ERROR, REFRESH_PERSONS } from "../../utils/types";
-import { cacheData, getCachedActivities, getCachedDeals, getCachedPersons } from "../../storage";
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import { cacheData, clearObject, getCachedActivities, getCachedDeals, getCachedPersons } from "../../storage";
 import { PERSONS } from "../../utils/constants";
 
 export interface GetPersonAction {
@@ -63,7 +62,7 @@ export const fetchPersons = (start: number, limit: number, refresh: boolean): Ar
     return async (dispatch: Dispatch<Action>) => {
         try {
             const response = await getPersons(start, limit);
-            await AsyncStorage.removeItem(PERSONS);
+            await clearObject(PERSONS)
             const { data = {} } = response;
             if (refresh) {
                 dispatch({

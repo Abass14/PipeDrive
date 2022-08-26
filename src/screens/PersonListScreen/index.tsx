@@ -24,7 +24,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     const { navigate } = navigation;
     const { personsList, personListError } = appState;
     const [isLoading, setIsLoading] = useState(false)
-    const [errorMsg, setErrorMsg] = useState(personListError);
     const [refreshing, setRefreshing] = useState(false)
     const [start, setStart] = useState(0);
     const [localPersonsList, setLocalPersonsList] = useState<Array<Person>>([])
@@ -33,13 +32,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     useEffect(() => {
         fetchPerson(start, LIMIT, false)
     }, [start])
-
-    useEffect(() => {
-        const delay = setTimeout(() => {
-            hideErrorMessage()
-        }, 4000)
-        return () => clearTimeout(delay);
-    }, [errorMsg])
 
     const fetchPerson = async (start: number, limit: number, refresh: boolean) => {
         if (start > 20) return;
@@ -63,10 +55,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
         await fetchPersons(0, LIMIT, true)
         await fetchPersonsFromContext();
         setRefreshing(false)
-    }
-
-    const hideErrorMessage = () => {
-        if (errorMsg) setErrorMsg("");
     }
 
     const loadMorePersons = () => {

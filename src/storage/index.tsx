@@ -39,3 +39,15 @@ export const cacheData = (data: any) : string => {
 export const getCachedData = (data: any) : any => {
     return JSON.parse(data);
 }
+
+export const clearStorage = async () => {
+    await AsyncStorage.clear()
+}
+
+export const clearObject = async (key: string) => {
+    await AsyncStorage.removeItem(key);
+}
+
+export const setObject = async (key: string, data: any) => {
+    await AsyncStorage.setItem(key, data)
+}
