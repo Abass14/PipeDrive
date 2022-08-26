@@ -30,8 +30,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     const [localPersonsList, setLocalPersonsList] = useState<Array<Person>>([])
     const [isLoadingMore, setIsLoadingMore] = useState(false)
 
-    console.log(personListError, "<====person list error")
-
     useEffect(() => {
         fetchPerson(start, LIMIT, false)
     }, [start])

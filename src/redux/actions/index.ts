@@ -78,8 +78,6 @@ export const fetchPersons = (start: number, limit: number, refresh: boolean): Ar
             }
         } catch (error: any) {
             const { message = "Something went wrong" } = error
-            console.log(JSON.stringify(error), "axios response error")
-            // const { error_info = "Something went wrong" } = response;
             dispatch({
                 type: "GET_PERSON_ERROR",
                 payload: `${message} Swipe to refresh`
@@ -98,7 +96,6 @@ export const fetchPersonsFromContext = (): Array<Person> | any => {
             })
         } catch (error: any) {
             const { response = {} } = error
-            console.log(response, "response error")
             dispatch({
                 type: "GET_PERSON_ERROR",
                 payload: `Swipe to refresh`
@@ -117,7 +114,6 @@ export const fetchPersonActivities = (id: number) => {
                 payload: { id, activity: data.data }
             })
         } catch (error: any) {
-            console.log(error, "<===activities error")
             const { error_info = "Error fetching Activities." } = error
             dispatch({
                 type: "GET_ACTIVITIES_ERROR",
@@ -136,7 +132,6 @@ export const fetchPersonActivitiesFromContext = () => {
                 payload: response
             })
         } catch (error: any) {
-            console.log(error, "<===activities from context error")
             const { error_info = "Error fetching Activities." } = error
             dispatch({
                 type: "GET_ACTIVITIES_ERROR",
@@ -155,7 +150,6 @@ export const fetchPersonDeals = (id: number) => {
                 payload: { id: id, deals: data.data }
             })
         } catch (error: any) {
-            console.log(error, "<===deals error")
             const { error_info = "Error fetching Deals." } = error
             dispatch({
                 type: "GET_DEALS_ERROR",
@@ -174,7 +168,6 @@ export const fetchPersonDealsFromContext = () => {
                 payload: response
             })
         } catch (error: any) {
-            console.log(error, "<===deals from context error")
             const { error_info = "Error fetching Deals." } = error
             dispatch({
                 type: "GET_DEALS_ERROR",
