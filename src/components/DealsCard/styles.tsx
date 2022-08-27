@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 15,
         backgroundColor: 'white',
-        height: 200
+        height: 200,
+        marginRight: 10
     },
     dealNameContainer: {
         flexDirection: 'row',

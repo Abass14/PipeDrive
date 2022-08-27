@@ -18,7 +18,8 @@ export type PersonDetailScreenProps = {
     fetchPersonDeals: Function,
     fetchPersonActivitiesFromContext: Function,
     fetchPersonDealsFromContext: Function,
-    route: Route<any, any>
+    route: Route<any, any>,
+    navigation: NavigationProp<any, any>,
 }
 export type PersonListScreenProps = {
     navigation: NavigationProp<any, any>,

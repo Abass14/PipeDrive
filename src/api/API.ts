@@ -19,7 +19,6 @@ const API = async (method: "get" | "post", path: string, additionalParams?: any)
                 return request
             } catch (error: any) {
                 throw error
-                return error.response;
             }
         case "post":
             try {
@@ -27,7 +26,6 @@ const API = async (method: "get" | "post", path: string, additionalParams?: any)
                 return request
             } catch (error: any) {
                 throw error
-                return error.response;
             }
     }
 }

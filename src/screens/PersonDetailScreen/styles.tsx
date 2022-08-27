@@ -2,13 +2,13 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
         marginHorizontal: 20
     },
     innerContainerOne: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 30
     },
     innerContainerTwo: {
         flex: 1

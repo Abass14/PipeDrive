@@ -15,6 +15,12 @@ type DealsCardProps = {
     assigned_to: string,
     won: string
 }
+
+/**
+ * 
+ * @param param0: DealsCardProps
+ * @returns 
+ */
 const DealsCard: React.FC<DealsCardProps> = ({
     title,
     price,

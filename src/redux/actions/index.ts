@@ -79,7 +79,7 @@ export const fetchPersons = (start: number, limit: number, refresh: boolean): Ar
             const { message = "Something went wrong" } = error
             dispatch({
                 type: "GET_PERSON_ERROR",
-                payload: `${message} Swipe to refresh`
+                payload: `${message}. Swipe to refresh`
             })
         }
     }
@@ -113,10 +113,10 @@ export const fetchPersonActivities = (id: number) => {
                 payload: { id, activity: data.data }
             })
         } catch (error: any) {
-            const { error_info = "Error fetching Activities." } = error
+            const { message = "Error fetching Activities." } = error
             dispatch({
                 type: "GET_ACTIVITIES_ERROR",
-                payload: `${error_info}`
+                payload: `${message}`
             })
         }
     }
@@ -131,10 +131,10 @@ export const fetchPersonActivitiesFromContext = () => {
                 payload: response
             })
         } catch (error: any) {
-            const { error_info = "Error fetching Activities." } = error
+            const { message = "Error fetching Activities." } = error
             dispatch({
                 type: "GET_ACTIVITIES_ERROR",
-                payload: `${error_info}`
+                payload: `${message}`
             })
         }
     }
@@ -149,10 +149,10 @@ export const fetchPersonDeals = (id: number) => {
                 payload: { id: id, deals: data.data }
             })
         } catch (error: any) {
-            const { error_info = "Error fetching Deals." } = error
+            const { message = "Error fetching Deals." } = error
             dispatch({
                 type: "GET_DEALS_ERROR",
-                payload: `${error_info}`
+                payload: `${message}`
             })
         }
     }
@@ -167,10 +167,10 @@ export const fetchPersonDealsFromContext = () => {
                 payload: response
             })
         } catch (error: any) {
-            const { error_info = "Error fetching Deals." } = error
+            const { message = "Error fetching Deals." } = error
             dispatch({
                 type: "GET_DEALS_ERROR",
-                payload: `${error_info}`
+                payload: `${message}`
             })
         }
     }

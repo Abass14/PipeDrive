@@ -25,9 +25,11 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
     fetchPersonDeals,
     route,
     fetchPersonActivitiesFromContext,
-    fetchPersonDealsFromContext
+    fetchPersonDealsFromContext,
+    navigation
 }): JSX.Element => {
     const { personsList, activitiesListError, dealsListError, activityMap, dealsMap } = appState;
+    const { navigate, goBack } = navigation;
     const { params = {} } = route;
     const { id = 0 } = params;
     const person = getUserDetails(id, personsList)
@@ -118,8 +120,9 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.container} showsHorizontalScrollIndicator={false} nestedScrollEnabled={true}>
             <View style={styles.innerContainerOne}>
+
                 <View>
                     <View style={styles.avatarContainer}>
                         <Image resizeMode="cover" source={{ uri: getUserPicture(person) ?? avatar }} style={styles.avatar} />
@@ -137,8 +140,8 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
                 <CustomText style={styles.userName} bold={true}>{formatSampleText(getUserName(person))}</CustomText>
                 <CustomText >{getUserEmail(person)}</CustomText>
             </View>
-            <ScrollView style={styles.innerContainerTwo} showsVerticalScrollIndicator={false}>
-            <View style={[styles.heaingView, styles.horizontalView]}>
+            <View style={styles.innerContainerTwo}>
+                <View style={[styles.heaingView, styles.horizontalView]}>
                     <CustomText style={styles.heading} bold={true}>
                         Activities {`(${activity.length}) `}
                     </CustomText>
@@ -215,7 +218,15 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
                     )}
 
                 </View>
-            </ScrollView>
+            </View>
+            <View style={{ position: "absolute", top: 0 }}>
+                <IconView
+                    type="material"
+                    name="chevron-left"
+                    size={40}
+                    onPress={goBack}
+                />
+            </View>
         </ScrollView>
     )
 }

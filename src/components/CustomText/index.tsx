@@ -7,6 +7,12 @@ type CustomTextProps = {
     textProps?: TextProps,
     bold?: boolean
 }
+
+/**
+ * Renders Text Component
+ * @param param0 
+ * @returns 
+ */
 const CustomText: React.FC<CustomTextProps> = ({
     children,
     style,
