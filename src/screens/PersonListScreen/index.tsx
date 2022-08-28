@@ -27,14 +27,12 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     const [refreshing, setRefreshing] = useState(false)
     const [start, setStart] = useState(0);
     const [localPersonsList, setLocalPersonsList] = useState<Array<Person>>([])
-    const [isLoadingMore, setIsLoadingMore] = useState(false)
 
     useEffect(() => {
         fetchPerson(start, LIMIT, false)
     }, [start])
 
     const fetchPerson = async (start: number, limit: number, refresh: boolean) => {
-        if (start > 20) return;
         const cachedPersons = await getCachedPersons();
         if (cachedPersons) setLocalPersonsList(cachedPersons)
         fetchFromCacheNetwork(cachedPersons, personsList, async () => {
@@ -46,7 +44,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
             await fetchPersonsFromContext();
             setIsLoading(false)
         })
-        setIsLoadingMore(false)
     }
 
     const onRefresh = async () => {
@@ -58,7 +55,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     }
 
     const loadMorePersons = () => {
-        setIsLoadingMore(true)
         setStart(start + 10)
     }
 
@@ -75,16 +71,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
                 email={getUserEmail(person)}
                 onPress={() => { navigate(PERSON_DETAILS_SCREEN, { id: person.id }) }}
             />
-        )
-    }
-
-    const renderFooter = () => {
-        if (!isLoadingMore) return null;
-        if (personsList.length >= MAX) return null;
-        return (
-            <View style={styles.loadMore}>
-                <Loader type="square-dots" />
-            </View>
         )
     }
 
@@ -120,7 +106,6 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
                     refreshing={refreshing}
                     onEndReached={loadMorePersons}
                     onEndReachedThreshold={0.1}
-                    ListFooterComponent={renderFooter}
                 />
             </View>
 

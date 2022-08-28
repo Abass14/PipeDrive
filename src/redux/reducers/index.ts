@@ -7,6 +7,10 @@ import { cacheData, setObject } from "../../storage";
 const reducer = (state: State = initialState, action: Action) => {
     switch (action.type) {
         case "GET_PERSONS":
+            if (!action.payload) return {
+                ...state,
+                personListError: ""
+            }
             setObject(PERSONS, cacheData([...state.personsList, ...action.payload]))
             return {
                 ...state,

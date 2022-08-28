@@ -62,8 +62,8 @@ export const fetchPersons = (start: number, limit: number, refresh: boolean): Ar
     return async (dispatch: Dispatch<Action>) => {
         try {
             const response = await getPersons(start, limit);
-            await clearObject(PERSONS)
             const { data = {} } = response;
+            if (data.data) await clearObject(PERSONS)
             if (refresh) {
                 dispatch({
                     type: "REFRESH_PERSONS",
