@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders custom text correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "fontSize": 12,
+        "fontWeight": "normal",
+      },
+      undefined,
+    ]
+  }
+>
+  Hello
+</Text>
+`;
+
+exports[`renders hyperlink correctly 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "opacity": 1,
+    }
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "fontSize": 12,
+          "fontWeight": "700",
+        },
+        [
+          {
+            "textDecorationLine": "underline",
+          },
+          undefined,
+        ],
+      ]
+    }
+  >
+    text
+  </Text>
+</View>
+`;
