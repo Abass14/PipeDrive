@@ -1,4 +1,5 @@
 import { Person } from "../model/model";
+import { avatar } from "./constants";
 
 /**
  * Finds and returns person of @params {id} in @params {userList} and returns person 
@@ -6,7 +7,7 @@ import { Person } from "../model/model";
  * @param userList 
  * @returns Person | undefined
  */
-export function getUserDetails(id: number, userList: Array<Person>): Person | undefined {
+export function getUserDetails(id: number, userList: Array<Person | any>): Person | any {
     const user = userList?.find((user) => id === user?.id)
     return user
 }
@@ -16,7 +17,7 @@ export function getUserDetails(id: number, userList: Array<Person>): Person | un
  * @param person 
  * @returns string
  */
-export function getUserName(person: Person | undefined): string {
+export function getUserName(person: Person | any): string {
     return `${person?.first_name} ${person?.last_name}`
 }
 
@@ -25,7 +26,7 @@ export function getUserName(person: Person | undefined): string {
  * @param person 
  * @returns string
  */
-export function getUserEmail(person: Person | undefined): string {
+export function getUserEmail(person: Person | any): string {
     return person?.email[0]?.value ?? ''
 }
 
@@ -34,7 +35,7 @@ export function getUserEmail(person: Person | undefined): string {
  * @param person 
  * @returns number
  */
-export function getUserPhone(person: Person | undefined): number {
+export function getUserPhone(person: Person | any): number {
     const phone = person?.phone[0]?.value!!
     return phone
 }
@@ -44,8 +45,8 @@ export function getUserPhone(person: Person | undefined): number {
  * @param person 
  * @returns string
  */
-export function getUserPicture(person: Person | undefined): string {
-    return person?.picture_id?.pictures[512]!!
+export function getUserPicture(person: Person | any): string {
+    return person?.picture_id?.pictures[512]!! ?? avatar
 }
 
 /**
@@ -56,7 +57,7 @@ export function getUserPicture(person: Person | undefined): string {
 export function getStartTime(add_date: string): { add_date: string, add_time: string } | undefined {
     if (!add_date?.length) return;
     const split = add_date?.split(" ")
-    return { add_date: split[0], add_time: split[0] }
+    return { add_date: split[0], add_time: split[1] }
 }
 
 

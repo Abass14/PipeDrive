@@ -70,7 +70,7 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     const renderItem = (person: Person) => {
         return (
             <UserCard
-                imageUri={getUserPicture(person) ?? avatar}
+                imageUri={getUserPicture(person)}
                 userName={formatSampleText(getUserName(person))}
                 email={getUserEmail(person)}
                 onPress={() => { navigate(PERSON_DETAILS_SCREEN, { id: person.id }) }}
@@ -102,7 +102,7 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     }
 
     return (
-        <View style={styles.conatiner}>
+        <View testID="Persons" style={styles.conatiner}>
             {personListError && (
                 <View style={styles.emptyMessageContainer}>
                     <EmptyListMessage containerStyle={styles.emptyMessage} message={personListError} style={{ color: 'red' }} />
