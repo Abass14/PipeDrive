@@ -102,7 +102,7 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     }
 
     return (
-        <View style={styles.conatiner}>
+        <View testID="Persons" style={styles.conatiner}>
             {personListError && (
                 <View style={styles.emptyMessageContainer}>
                     <EmptyListMessage containerStyle={styles.emptyMessage} message={personListError} style={{ color: 'red' }} />
