@@ -3,10 +3,8 @@ import { View, Text, ScrollView, Image, Linking, FlatList } from "react-native";
 import { connect } from "react-redux";
 import { ApplicationState } from "../../redux/reducers";
 import { fetchPersons, fetchPersonActivities, fetchPersonDeals, fetchPersonActivitiesFromContext, fetchPersonDealsFromContext } from '../../redux/actions'
-import NetInfo from "@react-native-community/netinfo"
 import { styles } from "./styles";
 import { formatSampleText, getUserDetails, getUserEmail, getUserName, getUserPhone, getUserPicture } from "../../utils/userUtils";
-import { avatar } from "../../utils/constants";
 import IconView from "../../components/IconView";
 import CustomText from "../../components/CustomText";
 import { Activity, Deals } from "../../model/model";
@@ -38,15 +36,6 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
     const [activityLoading, setActivityLoading] = useState(false)
     const [dealsLoading, setDealsLoading] = useState(false)
     const [errorMsg, setErrorMsg] = useState("")
-
-    useEffect(() => {
-        const subscribe = NetInfo.addEventListener((state) => {
-            if (!state.isConnected) {
-                setErrorMsg("Error Fetching Data")
-            }
-        })
-        subscribe()
-    }, [])
 
     const fetchActivities = async () => {
         const data = await getCachedActivities()
