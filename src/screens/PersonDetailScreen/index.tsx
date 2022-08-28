@@ -125,7 +125,7 @@ const _PersonDetailsScreen: React.FC<PersonDetailScreenProps> = ({
 
                 <View>
                     <View style={styles.avatarContainer}>
-                        <Image resizeMode="cover" source={{ uri: getUserPicture(person) ?? avatar }} style={styles.avatar} />
+                        <Image resizeMode="cover" source={{ uri: getUserPicture(person) }} style={styles.avatar} />
                     </View>
                     <View style={styles.phone}>
                         <IconView

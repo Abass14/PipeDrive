@@ -1,4 +1,5 @@
 import { Person } from "../model/model";
+import { avatar } from "./constants";
 
 /**
  * Finds and returns person of @params {id} in @params {userList} and returns person 
@@ -45,7 +46,7 @@ export function getUserPhone(person: Person | undefined): number {
  * @returns string
  */
 export function getUserPicture(person: Person | undefined): string {
-    return person?.picture_id?.pictures[512]!!
+    return person?.picture_id?.pictures[512]!! ?? avatar
 }
 
 /**

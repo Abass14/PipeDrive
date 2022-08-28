@@ -37,7 +37,7 @@ const ActivitiesCard: React.FC<ActivitiesCardProps> = ({
             <View style={styles.userImageContainer} key={participant.person_id.toString()} >
 
                 <View style={styles.userImage}>
-                    <Image source={{ uri: getUserPicture(person) ?? avatar}} resizeMode={"cover"} style={{ height: 80, width: 80, resizeMode: 'cover' }} />
+                    <Image source={{ uri: getUserPicture(person)}} resizeMode={"cover"} style={{ height: 80, width: 80, resizeMode: 'cover' }} />
                 </View>
                 <CustomText textProps={{ numberOfLines: 1 }}>{formatSampleText(getUserName(person))}</CustomText>
             </View>

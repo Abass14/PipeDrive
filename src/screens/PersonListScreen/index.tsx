@@ -70,7 +70,7 @@ const _PersonListScreen: React.FC<PersonListScreenProps> = ({
     const renderItem = (person: Person) => {
         return (
             <UserCard
-                imageUri={getUserPicture(person) ?? avatar}
+                imageUri={getUserPicture(person)}
                 userName={formatSampleText(getUserName(person))}
                 email={getUserEmail(person)}
                 onPress={() => { navigate(PERSON_DETAILS_SCREEN, { id: person.id }) }}
