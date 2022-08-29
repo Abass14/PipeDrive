@@ -2,7 +2,7 @@
 This App was created using Expo Cli. You will need an Expo Cli and Expo Go to run the app.
 
 ## Why Expo Cli?
-I use a windows OS currently and I needed to be able to test on both iOs and Android OS.
+I use a windows OS currently and I needed to be able to test on both iOS and Android OS.
 
 ## About App
 1. The Pipedrive app has 2 screens
