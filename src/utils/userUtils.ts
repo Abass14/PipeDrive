@@ -18,7 +18,9 @@ export function getUserDetails(id: number, userList: Array<Person | any>): Perso
  * @returns string
  */
 export function getUserName(person: Person | any): string {
-    return `${person?.first_name} ${person?.last_name}`
+    const fName = person?.first_name ?? ""
+    const lName = person?.last_name ?? ""
+    return `${fName} ${lName}`
 }
 
 /**
