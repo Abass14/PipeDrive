@@ -1,11 +1,11 @@
 import axios from "axios";
 import config from "../../config";
-const {BASE_URL, API_TOKEN} = config;
+const { API_TOKEN_v2, BASE_URL_v2 } = config;
 
 export const axiosInstance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: BASE_URL_v2,
     params: {
-        api_token: API_TOKEN
+        api_token: API_TOKEN_v2
     }
 })
 
